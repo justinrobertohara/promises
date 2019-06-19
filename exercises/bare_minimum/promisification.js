@@ -7,16 +7,20 @@ var fs = require('fs');
 var request = require('request');
 var crypto = require('crypto');
 var Promise = require('bluebird');
+var nodeStyle = require('./promisification.js');
+Promise.promisifyAll(fs);
+
 
 // (1) Asyncronous HTTP request
 var getGitHubProfile = function(user, callback) {
   var options = {
     url: 'https://api.github.com/users/' + user,
     headers: { 'User-Agent': 'request' },
-    json: true  // will JSON.parse(body) for us
+    json: true // will JSON.parse(body) for us
   };
 
   request.get(options, function(err, res, body) {
+    console.log('this is the err', err, ' this is the body ', body);
     if (err) {
       callback(err, null);
     } else if (body.message) {
@@ -27,7 +31,8 @@ var getGitHubProfile = function(user, callback) {
   });
 };
 
-var getGitHubProfileAsync; // TODO
+var getGitHubProfileAsync = Promise.promisify(getGitHubProfile);
+// TODO
 
 
 // (2) Asyncronous token generation

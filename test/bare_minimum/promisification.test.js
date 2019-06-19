@@ -16,7 +16,9 @@ describe('Promisification', function() {
     var githubAPI = nock('https://api.github.com');
 
     it('should return a promise', function() {
-      githubAPI.get('/users/someRealUser').reply(200);
+      githubAPI.get('/users/someRealUser').reply(200, {
+        message: 'I added this message'
+      });
 
       // Must return a Bluebird promise. ES6 promise won't work here
       expect(getGitHubProfileAsync('someRealUser')).to.be.an.instanceOf(Promise);

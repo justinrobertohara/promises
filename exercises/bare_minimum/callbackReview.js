@@ -20,7 +20,7 @@ var pluckFirstLineFromFile = function (filePath, callback) {
       var counter = 0;
       let firstLine = '';
       rl.on('line', function(lineVal) {
-        if (counter === 0 ) {
+        if (counter === 0) {
           firstLine = lineVal;
           callback(null, firstLine);
         } 
